@@ -1,42 +1,23 @@
-import React from "react";
+import React, { useContext } from "react";
 import { axiosInstance } from "../network/axiosConfig";
 import { useEffect, useState } from "react";
+import { LanguageContext } from "../context/lang";
 // import { useParams } from "react-router-dom";
 
 import { useParams } from "react-router-dom";
 
 export default function MovieInfo() {
 	const params = useParams();
-	console.log(params, "here");
 
+	const { lang } = useContext(LanguageContext);
 	const [movie, setMovie] = useState();
-
-	// useEffect(() => {
-	// 	axiosInstance
-	// 		.get(`/${params.id}`)
-	// 		.then((res) => {
-	// 			setMovie(res);
-	// 			console.log(res);
-	// 		})
-	// 		.catch((err) => console.log("here"));
-	// }, []);
-
-	// useEffect(() => {
-	// 	axiosInstance
-	// 		.get(`/users/${params.id}`, {
-	// 			params: {
-	// 				page: 1,
-	// 			},
-	// 		})
-	// 		.then((res) => setUserDetails(res.data))
-	// 		.catch((err) => console.log(err));
-	// }, []);
 
 	useEffect(() => {
 		axiosInstance
 			.get(`/${params.id}`, {
 				params: {
 					page: 1,
+					language: lang,
 				},
 			})
 			.then((res) => {

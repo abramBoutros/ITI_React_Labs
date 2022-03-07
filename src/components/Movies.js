@@ -1,20 +1,23 @@
-import React from "react";
-import { axiosInstance } from "../network/axiosConfig";
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+// import { axiosInstance } from "../network/axiosConfig";
 
+import { useDispatch, useSelector } from "react-redux";
+import { LanguageContext } from "../context/lang";
+
+import { getMovies } from "../store/actions/getMovies";
 import MovieCard from "./MovieCard";
 
 const Movies = () => {
-	const [movies, setMovies] = useState([]);
+	const movies = useSelector((state) => state.movies.moviesArr);
+	const { lang } = useContext(LanguageContext);
+
+	const dispatch = useDispatch();
 	useEffect(() => {
-		axiosInstance
-			.get("/popular")
-			.then((res) => {
-				setMovies(res.data.results);
-				// console.log(res.data.results);
-			})
-			.catch((err) => console.log(err));
-	}, []);
+		console.log(lang, "here");
+
+		dispatch(getMovies(lang));
+	}, [lang]);
+
 	return (
 		<div className="d-flex flex-row justify-content-start flex-wrap">
 			{movies.map((movie) => (

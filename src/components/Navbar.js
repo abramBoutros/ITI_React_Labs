@@ -1,10 +1,25 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { LanguageContext } from "../context/lang";
 import { Link, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function NavBar() {
+	const faves = useSelector((state) => state.addFavReducer.faves);
+
+	const { lang, setLang } = useContext(LanguageContext);
+
+	// if (lang !== x) {
+	// 	setSelectedLang(lang);
+	// }
+
+	const [selectedLang, setSelectedLang] = useState(lang);
+	useEffect(() => {
+		setSelectedLang(lang);
+	}, []);
+
 	return (
 		<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-			<Link className="navbar-brand" to="/">
+			<Link className=" ms-3 navbar-brand" to="/">
 				Movies
 			</Link>
 
@@ -42,7 +57,7 @@ export default function NavBar() {
 							activeClassName="active"
 							aria-current="page"
 						>
-							Favorites
+							Favorites : {faves.length}
 						</NavLink>
 					</li>
 					<li className="nav-item">
@@ -72,7 +87,28 @@ export default function NavBar() {
 						</NavLink>
 					</li>
 				</ul>
+				<span className="nav-item text-light">
+					current lang: {selectedLang}
+				</span>
 			</div>
+			<button
+				className=" me-2 cursor-pointer"
+				onClick={() => {
+					setLang("ar");
+					setSelectedLang("ar");
+				}}
+			>
+				Ar
+			</button>
+			<button
+				className=" me-5	cursor-pointer"
+				onClick={() => {
+					setLang("en");
+					setSelectedLang("en");
+				}}
+			>
+				En
+			</button>
 		</nav>
 	);
 }
